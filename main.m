@@ -30,7 +30,7 @@ while 1
     % dense reconstruction (KLT)
     [xyzPoints, camPoses, reprojectionErrors,tracks]...
         = dense_constructor_LKT(intrinsics,images,"Eigen001",vSet);
-    if size(xyzPoints,1)>4200
+    if size(xyzPoints,1)>4200 && mean(reprojectionErrors)<0.8
         break;
     end
 end
@@ -45,6 +45,11 @@ s=25;
     pcl,reprojectionErrors,reprojection_error_threshold,tracks,10000);
 %% get color
 color=getColor(tracks,color_images,size(p,1));
+% save_dir='res/';
+% formatOut = 30;
+% d=datestr(now, formatOut);
+% save(strcat(save_dir,d));
+
 %% ICP
 [rmse,tform,p_icp_abs] = ICP(p,[0,0,0],origin(1:2),scene);
 disp(rmse);
@@ -53,6 +58,11 @@ disp(rmse);
 disp(mean(xy));
 disp(mean(dz));
 
+%% show reconstruction
+figure; pcshow(p_icp_abs,color);
+xlabel("X East [m]");
+ylabel("Y North [m]");
+zlabel("Z elevation [m]");
 
 
 

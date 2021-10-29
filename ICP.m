@@ -14,8 +14,8 @@ end
 %% load ICP parameters
 
 inlier_ratio=.5;
-maxIterations=150;
-gridstep=2;
+maxIterations=50;
+gridstep=15;
 
 
 
